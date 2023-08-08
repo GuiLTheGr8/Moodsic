@@ -20,9 +20,11 @@
         </section>
 
         <div id="searchbox-wrapper">
-            <form method="GET">
-                <input id="searchbox" type="text" name="search-area" value="{{search_input}}">
-                <input class="button" type="submit" value="Confirmar">
+            <form method="post" action="">
+                {% csrf_token %}
+                <label for="text_input">Type something:</label>
+                <input type="text" id="text_input" name="user_input">
+                <button type="submit">Find music!</button>
             </form>
         </div>
 
