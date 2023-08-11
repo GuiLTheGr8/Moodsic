@@ -21,5 +21,6 @@ from Moodsic.views import *
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', homepage, name="index.html"),
+    path('', homepage, name="homepage"),
+    path('result', result, name="result"),
 ]
