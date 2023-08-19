@@ -11,7 +11,7 @@ import random
 load_dotenv()
 
 def homepage(request):
-    classifier = pipeline("text-classification", model='bhadresh-savani/distilbert-base-uncased-emotion', return_all_scores=True)
+    classifier = pipeline("text-classification", model='bhadresh-savani/distilbert-base-uncased-emotion', return_all_scores=False)
 
     if request.method == 'POST':
         
@@ -23,9 +23,7 @@ def homepage(request):
 
         # Análise sentimental
         textAnalysis = classifier(userInput)
-        print(textAnalysis)
-        print('')
-        mood = getHighestMood(textAnalysis)
+        mood = textAnalysis[0]['label']
         print("Detected mood: " + mood)
         print('')
 
@@ -37,25 +35,33 @@ def homepage(request):
         sp = spotipy.Spotify(auth_manager=auth_manager)
 
         # Fazer a busca por playlists com as palavras-chaves
-        results = sp.search(q=keywords, type='playlist', limit=20)
-        playlists = results['playlists']['items']
+        results = sp.search(q=keywords, type='playlist', limit=1, offset=random.randint(0,19))
+        playlist = results['playlists']['items'][0]
 
-        # Extrair informações das playlists encontradas
-        for playlist in playlists:
-            prettyPlaylist = json.dumps(playlist, indent=2)
-            print(prettyPlaylist)
-            # print('ID da Playlist:', playlist['id'])
-            # print('Número de Seguidores:', playlist['followers']['total'])
-            print('')
-        
-        selectedPlaylist = random.choice(playlists)
+        playlist_info = {}
+
+        if playlist:
+            playlist_info = {
+                'title': playlist['name'],
+                'image': playlist['images'][0]['url'] if playlist['images'] else None,
+                'link': playlist['external_urls']['spotify'],
+                'error': False,
+            }
+        else:
+            playlist_info = {
+                'title': 'error',
+                'image': None,
+                'link': playlist['external_urls']['spotify'],
+                'error': True,
+            }
 
         context = {
             'user_input': userInput,
             'text_analysis': textAnalysis,
             'mood': mood,
-            'playlist': selectedPlaylist
+            'playlist_info': playlist_info
         }
+
         return render(request, 'Moodsic/result.html', context)
 
     return render(request, 'Moodsic/index.html')
@@ -63,7 +69,7 @@ def homepage(request):
 def result(request, context):
     return render(request, 'Moodsic/result.html')
 
-def getHighestMood(textAnalysis):
+""" def getHighestMood(textAnalysis):
 
     highestMoodScore = 0
     highestMood = ""
@@ -73,7 +79,7 @@ def getHighestMood(textAnalysis):
             highestMoodScore = mood['score']
             highestMood = mood['label']
 
-    return highestMood
+    return highestMood """
 
 def getKeywords(mood, userInput):
 

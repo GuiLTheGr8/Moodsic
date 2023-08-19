@@ -1,14 +1,39 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Resultado</title>
+    <title>Results</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="{% static 'Moodsic/css/styles.css' %}">
 </head>
 <body>
-    <h1>Resultado:</h1>
-    <p>Texto Digitado: {{ user_input }}</p>
-    <p>Sentimento: {{ mood }}</p>
-    <p>Playlist encontrada: {{ playlist }}</p>
+
+    <!-- header do site -->
+    {% include 'Moodsic/header.html' %}
+
+    <h1>Results</h1>
+    <form method="post" action="">
+        <p>Typed text: {{ user_input }}</p>
+        <p>Mood: {{ mood }}</p>
+        <br>
+        <p>Found playlist:</p>
+        <h2>{{ playlist_info.title }}</h2>
+            {% if playlist_info.image %}
+            <img src="{{ playlist_info.image }}" alt="{{ playlist_info.title }} Image">
+            {% endif %}
+            <p><a href="{{ playlist_info.link }}" target="_blank">Ver no Spotify</a></p>
+        <br>
+        <p>Did you like the suggestion?</p>
+        <div class="buttons">
+            <button type="submit">No (Search again)</button>
+            <button type="submit">Yes (Save)</button>
+        </div>
+    </form>
 </body>
 </html>
