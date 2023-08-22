@@ -1,12 +1,12 @@
 # Create your views here.
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, redirect, render
 from transformers import pipeline
 from dotenv import load_dotenv
-import os
-import json
 import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
 import random
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.forms import UserCreationForm
 
 load_dotenv()
 
@@ -66,9 +66,6 @@ def homepage(request):
 
     return render(request, 'Moodsic/index.html')
 
-def result(request, context):
-    return render(request, 'Moodsic/result.html')
-
 """ def getHighestMood(textAnalysis):
 
     highestMoodScore = 0
@@ -104,3 +101,22 @@ def getKeywords(mood, userInput):
     # - também devemos implementar a possibilidade de keywords opostas (ex: pessoa está triste mas quer ouvir feliz)
     
     return keywords
+
+def result(request, context):
+    return render(request, 'Moodsic/result.html')
+
+def registro(request):
+    if request.method == 'POST':
+        # create user
+        formulario = UserCreationForm(request.POST)
+        if formulario.is_valid():
+            formulario.save()
+            return redirect('homepage')
+        else:
+            context = {'form': formulario, }
+        return render(request, 'Moodsic/registro.html', context)
+    else:
+        # render form
+        formulario = UserCreationForm()
+    context = {'form': formulario, }
+    return render(request, 'Moodsic/registro.html', context)
