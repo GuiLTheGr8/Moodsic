@@ -22,9 +22,10 @@ from Moodsic.views import *
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', homepage, name="homepage"),
-    path('result', result, name="result"),
+    path('', homepage, name='homepage'),
+    path('result/', result, name='result'),
+    path('save_results/', save_results, name='save_results'),
     path('login/', LoginView.as_view(template_name="Moodsic/login.html"), name='login'),
     path('logout/', LogoutView.as_view(next_page = reverse_lazy('homepage')), name='logout'),
-    path('registro/', registro, name = 'registro'),
+    path('register/', register, name = 'register'),
 ]

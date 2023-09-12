@@ -18,22 +18,52 @@
     {% include 'Moodsic/header.html' %}
 
     <h1>Results</h1>
-    <form method="post" action="">
-        <p>Typed text: {{ user_input }}</p>
-        <p>Mood: {{ mood }}</p>
-        <br>
-        <p>Found playlist:</p>
-        <h2>{{ playlist_info.title }}</h2>
-            {% if playlist_info.image %}
-            <img src="{{ playlist_info.image }}" alt="{{ playlist_info.title }} Image">
-            {% endif %}
-            <p><a href="{{ playlist_info.link }}" target="_blank">Ver no Spotify</a></p>
-        <br>
-        <p>Did you like the suggestion?</p>
-        <div class="buttons">
+
+    <p>Typed text: {{ user_input }}</p>
+    <p>Emotional analysis: {{ text_analysis }}</p>
+    <p>Mood: {{ mood }}</p>
+
+    <br>
+
+    <h2>Found playlist:</h2>
+    
+    <h3>{{ playlist_info.title }}</h3>
+    <h4>By: {{ playlist_info.owner }}</h4>
+
+    {% if playlist_info.description %}
+        <p>{{ playlist_info.description }}</p>
+    {% endif %}
+
+    <p>Opposite to mood: {{ opposite }}</p>
+
+    {% if playlist_info.image %}
+        <img src="{{ playlist_info.image }}" alt="{{ playlist_info.title }} Image">
+    {% endif %}
+
+    <p><a href="{{ playlist_info.link }}" target="_blank">Ver no Spotify</a></p>
+
+    <br>
+
+    <p>Did you like the suggestion?</p>
+
+    <div class="buttons">
+        <form method="GET" action="">
             <button type="submit">No (Search again)</button>
-            <button type="submit">Yes (Save)</button>
-        </div>
-    </form>
+        </form>
+        <form method="POST" action="{% url 'save_results' %}">
+            {% csrf_token %}
+            <input type="hidden" name="playlist_title" value="{{ playlist_info.title }}">
+            <input type="hidden" name="playlist_description" value="{{ playlist_info.description }}">
+            <input type="hidden" name="playlist_owner" value="{{ playlist_info.owner }}">
+            <input type="hidden" name="playlist_link" value="{{ playlist_info.link }}">
+            <input type="hidden" name="playlist_image" value="{{ playlist_info.image }}">
+            <input type="hidden" name="user_input" value="{{ user_input }}">
+            <input type="hidden" name="mood" value="{{ mood }}">
+            <input type="hidden" name="search_date" value="{{ search_date }}">
+            <input type="hidden" name="opposite" value="{{ opposite }}">
+            <button type="submit">Yes! (Save Moodsic)</button>
+        </form>
+    </div>
+
 </body>
 </html>

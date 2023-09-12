@@ -30,7 +30,9 @@
                 {% csrf_token %}
                 <label for="text_input">Type something:</label>
                 <input type="text" id="text_input" name="user_input">
-                <button type="submit">Find music!</button>
+                <label for="opposite_toggle">Search for opposite mood?</label>
+                <input type="checkbox" id="opposite_toggle" name="opposite">
+                <button type="submit">Find me some music!</button>
             </form>
         </div>
 
