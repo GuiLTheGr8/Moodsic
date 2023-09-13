@@ -1,6 +1,7 @@
 # Create your views here.
 from datetime import datetime
-from django.http import HttpResponseRedirect
+from typing import Any
+from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy, reverse
 from transformers import pipeline
@@ -12,6 +13,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 from .models import Moodsic, Playlist
+from django.views.generic.list import ListView
 
 def homepage(request):
     return render(request, 'Moodsic/index.html')
@@ -120,7 +122,7 @@ def result(request):
         }
         return render(request, 'Moodsic/index.html')
 
-
+@login_required
 def save_results(request):
     print("POST received! (save results)")
 
@@ -144,6 +146,17 @@ def save_results(request):
 
     return HttpResponseRedirect('/')
 
+class TimelineView(LoginRequiredMixin, ListView):
+    model = Moodsic
+    template_name = 'Moodsic/timeline.html'
+    context_object_name = 'moodsics'
+    success_url = reverse_lazy('timeline')
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['moodsics'] = context['moodsics'].filter(user = self.request.user)
+
+        return context
 
 def register(request):
     if request.method == 'POST':

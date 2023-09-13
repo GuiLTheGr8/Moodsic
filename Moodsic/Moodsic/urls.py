@@ -25,6 +25,7 @@ urlpatterns = [
     path('', homepage, name='homepage'),
     path('searchPlaylist/', searchPlaylist, name='search_playlist'),
     path('result/', result, name='result'),
+    path('timeline/', TimelineView.as_view(), name='timeline'),
     path('save_results/', save_results, name='save_results'),
     path('accounts/login/', LoginView.as_view(template_name="Moodsic/login.html"), name='login'),
     path('accounts/logout/', LogoutView.as_view(next_page = reverse_lazy('homepage')), name='logout'),

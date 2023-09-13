@@ -1,11 +1,62 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Results</title>
+
+    <title>Timeline</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="{% static 'Moodsic/css/styles.css' %}">
 </head>
 <body>
-    
+
+    <!-- header do site -->
+    {% include 'Moodsic/header.html' %}
+
+    <div id="graph-wrapper"></div>
+
+    <h2 class="timeline-text">Your Moodsics:</h2>
+
+    <div id="search-add-wrapper">
+        <form method="GET" style="display: flex;">
+            <input id="search_text" type="text" name="search-area" value="{{search_input}}">
+            <input class="button" type="submit" value="Search">
+        </form>
+
+        <div class="timeline-items-wrapper">
+            {% for moodsic in moodsics %}
+                <div class="moodsic-wrapper" onclick="location.href='#'">
+                    <div class ="moodsic-descricao">
+                        <span>Search date: </span> {{moodsic.searchDate}} |
+                        <span>Typed text: </span> {{moodsic.typedText|slice:":20"}}(...) |
+                        <span>Mood: </span> {{moodsic.mood}} |
+                        <span>Opposite: </span> {{moodsic.opposite}} |
+                        <span>Found Playlist: </span> {{moodsic.playlist.title}}
+                    </div>
+                    <div class = "moodsic-buttons">
+                        {% comment %}
+                        <!--
+                        <a class="delete-link" href="{% url 'moodsic-delete' pk=moodsic.id %}">&#10799;</a>
+                        -->
+                        {% endcomment %}
+                        <a class="delete-link">&#10799;</a>
+                    </div>
+                </div>
+            {% empty %}
+            <div class="moodsic-wrapper">
+                <h3>No Moodsics found.</h3>
+                <h4>Save some Moodsics or change or search terms.</h4>
+            </div>
+                
+            {% endfor %}
+        </div>
+    </div>
+
 </body>
 </html>
