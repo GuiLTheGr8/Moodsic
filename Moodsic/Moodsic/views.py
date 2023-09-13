@@ -14,17 +14,16 @@ from django.contrib.auth.forms import UserCreationForm
 from .models import Moodsic, Playlist
 
 def homepage(request):
+    return render(request, 'Moodsic/index.html')
 
-    if request.method == 'POST':
+def searchPlaylist(request):
+     if request.method == 'POST':
         
         # Recuperar texto digitado
         userInput = request.POST.get('user_input')
 
         # Recuperar escolha de oposto
         opposite = request.POST.get('opposite')
-
-        if (userInput == "" or None):
-            return render(None, 'Moodsic/index.html')
         
         load_dotenv()
         classifier = pipeline("text-classification", model='bhadresh-savani/distilbert-base-uncased-emotion', top_k = None)
@@ -65,13 +64,11 @@ def homepage(request):
             'text_analysis': textAnalysis,
             'mood': mood,
             'playlist_info': playlist_info,
-            'opposite': "No",
+            'opposite': False,
             'error': True if len(playlist_info) == 0 else False,
         }
 
         return render(request, 'Moodsic/result.html', context)
-
-    return render(request, 'Moodsic/index.html')
 
 def getHighestMood(textAnalysis):
 
@@ -109,38 +106,23 @@ def getKeywords(mood, userInput, opposite):
     
     return keywords
 
-@login_required
+
 def result(request):
+    
     if request.method == 'POST':
-        # Save Search
-
-        print("POST received!")
-
-        playlist_title = request.POST.get('playlist_title')
-        playlist_description = request.POST.get('playlist_description')
-        playlist_owner = request.POST.get('playlist_owner')
-        playlist_link = request.POST.get('playlist_link')
-        playlist_image = request.POST.get('playlist_image')
-
-        typedText = request.POST.get('user_input')
-        searchDate = request.POST.get('search_date')
-        mood = request.POST.get('mood')
-        opposite = request.POST.get('opposite')
-        user = request.user
-
-        playlist = Playlist(title = playlist_title, description = playlist_description, owner = playlist_owner, link = playlist_link, image = playlist_image)
-        playlist.save()
-
-        moodsic = Moodsic(user = user, playlist = playlist, mood = mood, typedText = typedText, opposite = opposite)
-        moodsic.save()
-
-        return HttpResponseRedirect('/')
-    
-    else:
+        print("POST received! (result)")
+        userInput = request.POST.get('user_input')
+        oppositeText = request.POST.get('opposite')
+        opposite = True if oppositeText == "Yes" else False
+        context = {
+            'user_input': userInput,
+            'opposite': opposite
+        }
         return render(request, 'Moodsic/index.html')
-    
+
+
 def save_results(request):
-    print("POST received!")
+    print("POST received! (save results)")
 
     playlist_title = request.POST.get('playlist_title')
     playlist_description = request.POST.get('playlist_description')
@@ -151,8 +133,7 @@ def save_results(request):
     typedText = request.POST.get('user_input')
     searchDate = request.POST.get('search_date')
     mood = request.POST.get('mood')
-    oppositeText = request.POST.get('opposite')
-    opposite = True if oppositeText == "Yes" else False
+    opposite = request.POST.get('opposite')
     user = request.user
 
     playlist = Playlist(title = playlist_title, description = playlist_description, owner = playlist_owner, link = playlist_link, image = playlist_image)

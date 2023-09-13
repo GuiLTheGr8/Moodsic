@@ -26,7 +26,7 @@
         </section>
 
         <div id="searchbox-wrapper">
-            <form method="post" action="">
+            <form method="post" action="{% url 'search_playlist' %}">
                 {% csrf_token %}
                 <label for="text_input">Type something:</label>
                 <input type="text" id="text_input" name="user_input">

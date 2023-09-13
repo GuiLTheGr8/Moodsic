@@ -34,7 +34,11 @@
         <p>{{ playlist_info.description }}</p>
     {% endif %}
 
-    <p>Opposite to mood: {{ opposite }}</p>
+    {% if opposite == True %}
+        <p>Opposite to mood: Yes</p>
+    {% else %}
+        <p>Opposite to mood: No</p>
+    {% endif %}
 
     {% if playlist_info.image %}
         <img src="{{ playlist_info.image }}" alt="{{ playlist_info.title }} Image">
@@ -47,8 +51,15 @@
     <p>Did you like the suggestion?</p>
 
     <div class="buttons">
-        <form method="GET" action="">
-            <button type="submit">No (Search again)</button>
+        <form method="POST" action="{% url 'search_playlist' %}">
+            {% csrf_token %}
+            <input type="hidden" name="user_input" value="{{ user_input }}">
+            <input type="hidden" name="opposite" value="{{ opposite }}">
+            {% if request.user.is_authenticated %}
+                <button type="submit">No (Search again)</button>
+            {% else %}
+                <button type="submit">Search again</button>
+            {% endif %}
         </form>
         <form method="POST" action="{% url 'save_results' %}">
             {% csrf_token %}
@@ -61,7 +72,11 @@
             <input type="hidden" name="mood" value="{{ mood }}">
             <input type="hidden" name="search_date" value="{{ search_date }}">
             <input type="hidden" name="opposite" value="{{ opposite }}">
-            <button type="submit">Yes! (Save Moodsic)</button>
+            {% if request.user.is_authenticated %}
+                <button type="submit">Yes! (Save Moodsic)</button>
+            {% else %}
+                <button type="submit" disabled>Log in to save</button>
+            {% endif %}
         </form>
     </div>
 
