@@ -14,6 +14,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 from .models import Moodsic, Playlist
 from django.views.generic.list import ListView
+from django.views.generic.base import View
 
 def homepage(request):
     return render(request, 'Moodsic/index.html')
@@ -157,6 +158,16 @@ class TimelineView(LoginRequiredMixin, ListView):
         context['moodsics'] = context['moodsics'].filter(user = self.request.user)
 
         return context
+    
+class MoodsicDelete(LoginRequiredMixin, View):
+    def get(self, request, pk, *args, **kwargs):
+        moodsic = Moodsic.objects.get(pk=pk)
+        context = { 'moodsic': moodsic }
+        return render(request, 'Moodsic/moodsic-delete.html', context)
+
+    def post(self, request, pk, *args, **kwargs):
+        Moodsic.objects.filter(pk=pk).delete()
+        return HttpResponseRedirect(reverse_lazy("timeline"))
 
 def register(request):
     if request.method == 'POST':
