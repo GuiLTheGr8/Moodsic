@@ -6,33 +6,37 @@
     <title>Document</title>
 </head>
 <body>
-    <h1>Results</h1>
 
-    <p>Typed text: {{ user_input }}</p>
-    <p>Emotional analysis: {{ text_analysis }}</p>
-    <p>Mood: {{ mood }}</p>
+    <!-- header do site -->
+    {% include 'Moodsic/header.html' %}
+
+    <h1>Details</h1>
+
+    <p>Search date: {{ moodsic.searchDate }}</p>
+    <p>Typed text: {{ moodsic.typedText }}</p>
+    <p>Mood: {{ moodsic.mood }}</p>
 
     <br>
 
     <h2>Found playlist:</h2>
     
-    <h3>{{ playlist_info.title }}</h3>
-    <h4>By: {{ playlist_info.owner }}</h4>
+    <h3>{{ moodsic.playlist.title }}</h3>
+    <h4>By: {{ moodsic.playlist.owner }}</h4>
 
     {% if playlist_info.description %}
-        <p>{{ playlist_info.description }}</p>
+        <p>{{ playlist.description }}</p>
     {% endif %}
 
-    {% if opposite == True %}
+    {% if moodsic.opposite == True %}
         <p>Opposite to mood: Yes</p>
     {% else %}
         <p>Opposite to mood: No</p>
     {% endif %}
 
-    {% if playlist_info.image %}
-        <img src="{{ playlist_info.image }}" alt="{{ playlist_info.title }} Image">
+    {% if moodsic.playlist.image %}
+        <img src="{{ moodsic.playlist.image }}" alt="{{ playlist_info.title }} Image">
     {% endif %}
 
-    <p><a href="{{ playlist_info.link }}" target="_blank">Open on Spotify</a></p>
+    <p><a href="{{ moodsic.playlist.link }}" target="_blank">Open on Spotify</a></p>
 </body>
 </html>

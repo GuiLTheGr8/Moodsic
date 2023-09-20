@@ -175,6 +175,15 @@ class MoodsicDelete(LoginRequiredMixin, View):
             return HttpResponseRedirect(reverse_lazy("timeline"))
         else:
             raise Http404("You don't have permission to delete this Moodsic.")
+        
+class MoodsicDetails(LoginRequiredMixin, View):
+    def get(self, request, pk, *args, **kwargs):
+        moodsic = get_object_or_404(Moodsic, pk=pk)
+        if moodsic.user == self.request.user:
+            context = { 'moodsic': moodsic }
+            return render(request, 'Moodsic/moodsic-details.html', context)
+        else:
+            raise Http404("You don't have permission to view this Moodsic.")
 
 def register(request):
     if request.method == 'POST':

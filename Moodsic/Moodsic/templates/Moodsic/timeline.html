@@ -31,7 +31,7 @@
 
         <div class="timeline-items-wrapper">
             {% for moodsic in moodsics %}
-                <div class="moodsic-wrapper" onclick="location.href='#'">
+                <div class="moodsic-wrapper">
                     <div class ="moodsic-descricao">
                         <span>Search date: </span> {{moodsic.searchDate}} |
                         <span>Typed text: </span> {{moodsic.typedText|slice:":20"}}(...) |
@@ -40,6 +40,7 @@
                         <span>Found Playlist: </span> {{moodsic.playlist.title}}
                     </div>
                     <div class = "moodsic-buttons">
+                        <a class="details-link" href="{% url 'moodsic-details' pk=moodsic.id %}">&#8505;</a>
                         <a class="delete-link" href="{% url 'moodsic-delete' pk=moodsic.id %}">&#10799;</a>
                     </div>
                 </div>
