@@ -1,7 +1,7 @@
 # Create your views here.
 from datetime import datetime
 from typing import Any
-from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
+from django.http import Http404, HttpRequest, HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy, reverse
 from transformers import pipeline
@@ -161,13 +161,20 @@ class TimelineView(LoginRequiredMixin, ListView):
     
 class MoodsicDelete(LoginRequiredMixin, View):
     def get(self, request, pk, *args, **kwargs):
-        moodsic = Moodsic.objects.get(pk=pk)
-        context = { 'moodsic': moodsic }
-        return render(request, 'Moodsic/moodsic-delete.html', context)
+        moodsic = get_object_or_404(Moodsic, pk=pk)
+        if moodsic.user == self.request.user:
+            context = { 'moodsic': moodsic }
+            return render(request, 'Moodsic/moodsic-delete.html', context)
+        else:
+            raise Http404("You don't have permission to delete this Moodsic.")
 
     def post(self, request, pk, *args, **kwargs):
-        Moodsic.objects.filter(pk=pk).delete()
-        return HttpResponseRedirect(reverse_lazy("timeline"))
+        moodsic = Moodsic.objects.get(pk=pk)
+        if moodsic.user == self.request.user:
+            Moodsic.objects.filter(pk=pk).delete()
+            return HttpResponseRedirect(reverse_lazy("timeline"))
+        else:
+            raise Http404("You don't have permission to delete this Moodsic.")
 
 def register(request):
     if request.method == 'POST':

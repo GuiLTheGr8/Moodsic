@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Results</h1>
+
+    <p>Typed text: {{ user_input }}</p>
+    <p>Emotional analysis: {{ text_analysis }}</p>
+    <p>Mood: {{ mood }}</p>
+
+    <br>
+
+    <h2>Found playlist:</h2>
+    
+    <h3>{{ playlist_info.title }}</h3>
+    <h4>By: {{ playlist_info.owner }}</h4>
+
+    {% if playlist_info.description %}
+        <p>{{ playlist_info.description }}</p>
+    {% endif %}
+
+    {% if opposite == True %}
+        <p>Opposite to mood: Yes</p>
+    {% else %}
+        <p>Opposite to mood: No</p>
+    {% endif %}
+
+    {% if playlist_info.image %}
+        <img src="{{ playlist_info.image }}" alt="{{ playlist_info.title }} Image">
+    {% endif %}
+
+    <p><a href="{{ playlist_info.link }}" target="_blank">Open on Spotify</a></p>
+</body>
+</html>
