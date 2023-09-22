@@ -6,7 +6,7 @@ em uma página HTML use:
 -->
 
 <header class="header">
-    <img src="{% static 'Moodsic/images/logo.png' %}">
+    <img src="{% static 'Moodsic/images/logo.png' %}" role="button" onclick="location.href='{% url 'homepage' %}'">
     <div class="menu">
         <a href="{% url 'homepage' %}">Home</a>
         <a href="{% url 'timeline' %}">Timeline</a>
