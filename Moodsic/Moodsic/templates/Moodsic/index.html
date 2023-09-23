@@ -29,13 +29,16 @@
         </section>
 
         <div id="searchbox-wrapper">
-            <form method="post" action="{% url 'search_playlist' %}">
+            <form method="post" action="{% url 'search_playlist' %}" onSubmit="document.getElementById('button').disabled=true;">
                 {% csrf_token %}
                 <label for="text_input">Type something:</label>
                 <input type="text" id="text_input" name="user_input">
                 <label for="opposite_toggle">Search for opposite mood?</label>
                 <input type="checkbox" id="opposite_toggle" name="opposite">
-                <button type="submit">Find me some music!</button>
+                <div id="button-spinner">
+                    <button id="button" class="btn btn-primary" type="submit">Find me some music!
+                    </button>
+                </div>
             </form>
         </div>
 
@@ -48,3 +51,23 @@
     </div>
 </body>
 </html>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const textInput = document.getElementById('text_input')
+        const button = document.getElementById('button');
+        
+        button.addEventListener('click', function() {
+            const typedText = textInput.value.trim()
+
+            if (typedText) {
+                button.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...';
+            }
+        });
+    });
+</script>
+
+
+
+
+

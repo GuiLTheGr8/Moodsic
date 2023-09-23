@@ -16,6 +16,8 @@ from .models import Moodsic, Playlist
 from django.views.generic.list import ListView
 from django.views.generic.base import View
 
+load_dotenv()
+
 def homepage(request):
     return render(request, 'Moodsic/index.html')
 
@@ -25,10 +27,12 @@ def searchPlaylist(request):
         # Recuperar texto digitado
         userInput = request.POST.get('user_input')
 
+        if userInput.strip() == '':
+            return HttpResponseRedirect('/')
+
         # Recuperar escolha de oposto
         opposite = request.POST.get('opposite')
-        
-        load_dotenv()
+    
         classifier = pipeline("text-classification", model='bhadresh-savani/distilbert-base-uncased-emotion', top_k = None)
 
         # Sentimental analysis
