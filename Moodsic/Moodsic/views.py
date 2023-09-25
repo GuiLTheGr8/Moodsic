@@ -32,6 +32,8 @@ def searchPlaylist(request):
 
         # Recuperar escolha de oposto
         opposite = request.POST.get('opposite')
+        if opposite != "Yes":
+            opposite = "No"
     
         classifier = pipeline("text-classification", model='bhadresh-savani/distilbert-base-uncased-emotion', top_k = None)
 
@@ -71,7 +73,7 @@ def searchPlaylist(request):
             'text_analysis': textAnalysis,
             'mood': mood,
             'playlist_info': playlist_info,
-            'opposite': False,
+            'opposite': opposite,
             'error': True if len(playlist_info) == 0 else False,
         }
 
@@ -92,24 +94,47 @@ def getHighestMood(textAnalysis):
 def getKeywords(mood, userInput, opposite):
 
     keywords = ''
-    
-    if mood == "sadness":
-        keywords = "sad"
-    elif mood == "joy":
-        keywords = "happy"
-    elif mood == "love":
-        keywords = "love"
-    elif mood == "anger":
-        keywords = "angry"
-    elif mood == "fear":
-        keywords = "horror"
-    elif mood == "surprise":
-        keywords = "surprise"
+    if opposite == "Yes":
+        if mood == "sadness":
+            keywordList = ["happy","joy", "good vibes", "happiness", "positive", "healing"]
+            keywords = random.choice(keywordList)
+        elif mood == "joy":
+            keywordList = ["sad","sadness", "melancholic", "melancholy", "cry", "depress"]
+            keywords = random.choice(keywordList)
+        elif mood == "love":
+            keywordList = ["loner", "lonely", "neutral", "alone", "loneliness", "breakup"]
+            keywords = random.choice(keywordList)
+        elif mood == "anger":
+            keywordList = ["calm", "chill", "dream", "peace", "relax", "stress relief"]
+            keywords = random.choice(keywordList)
+        elif mood == "fear":
+            keywordList = ["calm", "chill", "dream", "peace", "relax", "stress relief"]
+            keywords = random.choice(keywordList)
+        elif mood == "surprise":
+            keywordList = ["hit", "pop", "top", "neutral", "famous"]
+            keywords = random.choice(keywordList)
+    else:
+        if mood == "sadness":
+            keywordList = ["sad","sadness", "melancholic", "melancholy", "cry", "depress"]
+            keywords = random.choice(keywordList)
+        elif mood == "joy":
+            keywordList = ["happy","joy", "joyful", "good vibes", "happiness", "positive"]
+            keywords = random.choice(keywordList)
+        elif mood == "love":
+            keywordList = ["love","lovebirds", "valentine", "soulmate", "romantic"]
+            keywords = random.choice(keywordList)
+        elif mood == "anger":
+            keywordList = ["angry","anger", "heavy", "pissed off", "rage"]
+            keywords = random.choice(keywordList)
+        elif mood == "fear":
+            keywordList = ["fear","horror", "terror", "dark", "scary"]
+            keywords = random.choice(keywordList)
+        elif mood == "surprise":
+            keywordList = ["hipster", "surprising", "underground", "less known", "hidden gem"]
+            keywords = random.choice(keywordList)
 
     # Essa função deve ser melhorada:
-    # - mais keywords: possibilidades de palavras alternativas (ex: chance de "chill" e/ou "happy")
-    # - ou pela busca de termos no userInput (ex: beach, work, traffic, study)
-    # - também devemos implementar a possibilidade de keywords opostas (ex: pessoa está triste mas quer ouvir feliz)
+    # - Pela busca de termos no userInput (ex: beach, work, traffic, study)
     
     return keywords
 
@@ -140,7 +165,8 @@ def save_results(request):
     typedText = request.POST.get('user_input')
     searchDate = request.POST.get('search_date')
     mood = request.POST.get('mood')
-    opposite = request.POST.get('opposite')
+    oppositeText = request.POST.get('opposite')
+    opposite = True if oppositeText and oppositeText == "Yes" else False
     user = request.user
 
     playlist = Playlist(title = playlist_title, description = playlist_description, owner = playlist_owner, link = playlist_link, image = playlist_image)

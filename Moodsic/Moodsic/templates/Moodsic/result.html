@@ -37,11 +37,7 @@
         <p>{{ playlist_info.description }}</p>
     {% endif %}
 
-    {% if opposite == True %}
-        <p>Opposite to mood: Yes</p>
-    {% else %}
-        <p>Opposite to mood: No</p>
-    {% endif %}
+    <p>Opposite to mood: {{ opposite }}</p>
 
     {% if playlist_info.image %}
         <img src="{{ playlist_info.image }}" alt="{{ playlist_info.title }} Image">
