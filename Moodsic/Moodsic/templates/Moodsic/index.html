@@ -22,17 +22,17 @@
     <!-- header do site -->
     {% include 'Moodsic/header.html' %}
 
-    <div class="structure">
+    <div class="home-content-wrapper">
 
         <section class="headline">
-            <h1>How are you feeling? How was your day?</h1>
+            <h2>How are you feeling? How was your day?</h2>
         </section>
 
-        <div id="searchbox-wrapper">
-            <form method="post" action="{% url 'search_playlist' %}" onSubmit="document.getElementById('button').disabled=true;">
+        <div class="searchbox-wrapper">
+            <form class="search-form" method="post" action="{% url 'search_playlist' %}" onSubmit="document.getElementById('button').disabled=true;">
                 {% csrf_token %}
-                <label for="text_input">Type something:</label>
-                <input type="text" id="text_input" name="user_input">
+                <label for="text-input">Type here:</label>
+                <textarea class="text-input" id="text_input" name="user_input" rows="4" cols="50"></textarea>
                 <label for="opposite_toggle">Search for opposite mood?</label>
                 <input type="checkbox" id="opposite_toggle" name="opposite" value="Yes">
                 <div id="button-spinner">
@@ -43,10 +43,6 @@
         </div>
 
         <p class="description"> Moodsic is a service that recommends the perfect Spotify song for your current mood. Just type on the search box and let us do the rest. <br><br> Be sure to log in to save previous recommendations and keep track of your mood over time ;)</p>
-
-        <footer class="footer">
-
-        </footer>
         
     </div>
 </body>
