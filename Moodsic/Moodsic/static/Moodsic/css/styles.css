@@ -1,3 +1,5 @@
+/* GLOBAL */
+
 a {
     text-decoration: none;
     color: inherit;
@@ -44,12 +46,15 @@ h3 {
 textarea {
     color: black;
     border-radius: 10px;
+    max-width: 100%;
 }
 
 input, select {
     color: black;
     border-radius: 5px;
 }
+
+/* HEADER */
 
 .header {
     height: 80px;
@@ -87,6 +92,8 @@ input, select {
     color: var(--color-secondary);
 }
 
+/* HOMEPAGE */
+
 .home-content-wrapper {
     border-radius: 16px;
     background-color: var(--color-primary);
@@ -106,30 +113,17 @@ input, select {
     box-shadow: 0px 3px 5px 1px rgba(0,0,0,0.37);
 }
 
+.searchbox-wrapper {
+    max-width: 100%;
+}
+
 .search-form {
     display: flex;
     flex-direction: column;
     gap: 20px;
 }
 
-.login-wrapper {
-    border-radius: 16px;
-    background-color: var(--color-primary);
-    display: flex;
-    flex-direction: column;
-    max-width: 1000px;
-    min-height: calc(100vh - 300px);
-    align-items: center;
-    justify-content: space-around;
-    margin: auto;
-    margin-top: 50px;
-    padding: 40px;
-    gap: 50px;
-    text-align: center;
-    -webkit-box-shadow: 0px 3px 5px 1px rgba(0,0,0,0.37);
-    -moz-box-shadow: 0px 3px 5px 1px rgba(0,0,0,0.37);
-    box-shadow: 0px 3px 5px 1px rgba(0,0,0,0.37);
-}
+/* LOGIN/REGISTER */
 
 .logreg-wrapper {
     border-radius: 16px;
@@ -161,4 +155,77 @@ input, select {
 
 .fieldWrapper {
     padding: 20px;
+}
+
+/* TIMELINE */
+
+.timeline-items-wrapper {
+    padding: 20px;
+}
+
+.moodsic-wrapper {
+    border-radius: 10px;
+    background-color: var(--color-primary);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 50px;
+    max-height: 100px;
+    margin-bottom: 15px;
+}
+
+.moodsic-buttons {
+    font-size: 40px;
+    padding-right: 20px;
+}
+
+/* RESULTS/DETAILS */
+
+.results-content {
+    border-radius: 16px;
+    background-color: var(--color-primary);
+    text-align: center;
+    margin: 50px;
+    padding: 50px;
+    -webkit-box-shadow: 0px 3px 5px 1px rgba(0,0,0,0.37);
+    -moz-box-shadow: 0px 3px 5px 1px rgba(0,0,0,0.37);
+    box-shadow: 0px 3px 5px 1px rgba(0,0,0,0.37);
+}
+
+.playlist-wrapper img {
+    max-width: 400px;
+}
+
+.playlist-info-wrapper {
+    padding-top: 20px;
+}
+
+.spotify-button {
+    width: 200px;
+}
+
+.result-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.delete-wrapper {
+    border-radius: 16px;
+    background-color: var(--color-primary);
+    display: flex;
+    flex-direction: column;
+    max-width: 1000px;
+    min-height: calc(100vh - 500px);
+    align-items: center;
+    justify-content: space-around;
+    margin: auto;
+    margin-top: 50px;
+    padding: 40px;
+    gap: 50px;
+    text-align: center;
+    -webkit-box-shadow: 0px 3px 5px 1px rgba(0,0,0,0.37);
+    -moz-box-shadow: 0px 3px 5px 1px rgba(0,0,0,0.37);
+    box-shadow: 0px 3px 5px 1px rgba(0,0,0,0.37);
 }

@@ -33,8 +33,10 @@
                 {% csrf_token %}
                 <label for="text-input">Type here:</label>
                 <textarea class="text-input" id="text_input" name="user_input" rows="4" cols="50"></textarea>
-                <label for="opposite_toggle">Search for opposite mood?</label>
-                <input type="checkbox" id="opposite_toggle" name="opposite" value="Yes">
+                <div class="form-check-inline">
+                    <label class="form-check-label" for="opposite_toggle">Search for opposite mood?</label>
+                    <input class="form-check-input" type="checkbox" id="opposite_toggle" name="opposite" value="Yes">
+                </div>
                 <div id="button-spinner">
                     <button id="button" class="btn btn-primary" type="submit">Find me some music!
                     </button>
@@ -42,7 +44,7 @@
             </form>
         </div>
 
-        <p class="description"> Moodsic is a service that recommends the perfect Spotify song for your current mood. Just type on the search box and let us do the rest. <br><br> Be sure to log in to save previous recommendations and keep track of your mood over time ;)</p>
+        <p class="description"> Moodsic is a service that recommends the perfect Spotify playlist for your current mood. Just type on the search box, let us know if you want a song that is opposite or not to what you're feeling, and let us do the rest. <br><br> And be sure to log in to save recommendations and keep track of your mood over time ;)</p>
         
     </div>
 </body>

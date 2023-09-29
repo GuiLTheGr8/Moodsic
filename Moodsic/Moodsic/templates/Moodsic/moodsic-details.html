@@ -18,34 +18,51 @@
 
     <!-- header do site -->
     {% include 'Moodsic/header.html' %}
-
-    <h1>Details</h1>
-
-    <p>Search date: {{ moodsic.searchDate }}</p>
-    <p>Typed text: {{ moodsic.typedText }}</p>
-    <p>Mood: {{ moodsic.mood }}</p>
-
-    <br>
-
-    <h2>Found playlist:</h2>
     
-    <h3>{{ moodsic.playlist.title }}</h3>
-    <h4>By: {{ moodsic.playlist.owner }}</h4>
+    <div class="results-content">
 
-    {% if playlist_info.description %}
-        <p>{{ playlist.description }}</p>
-    {% endif %}
+        <h1>Details</h1>
 
-    {% if moodsic.opposite == True %}
-        <p>Opposite to mood: Yes</p>
-    {% else %}
-        <p>Opposite to mood: No</p>
-    {% endif %}
+        <h4>Search date: {{ moodsic.searchDate }}</h4>
+        <h4>Typed text: {{ moodsic.typedText }}</h4>
+        <h4>Mood: {{ moodsic.mood }}</h4>
 
-    {% if moodsic.playlist.image %}
-        <img src="{{ moodsic.playlist.image }}" alt="{{ playlist_info.title }} Image">
-    {% endif %}
+        <br>
 
-    <p><a href="{{ moodsic.playlist.link }}" target="_blank">Open on Spotify</a></p>
+        <h2>Found playlist:</h2>
+
+        <div class="playlist-wrapper">
+
+            <div class="img-wrapper">
+
+                {% if moodsic.playlist.image %}
+                    <img class="rounded img-thumbnail" src="{{ moodsic.playlist.image }}" alt="{{ playlist_info.title }} Image">
+                {% endif %}
+
+            </div>
+
+            <div class="playlist-info-wrapper">
+        
+                <h3>{{ moodsic.playlist.title }}</h3>
+                <h4>By: {{ moodsic.playlist.owner }}</h4>
+
+                {% if playlist_info.description %}
+                    <p>{{ playlist.description }}</p>
+                {% endif %}
+
+                {% if moodsic.opposite == True %}
+                    <p>Opposite to mood: Yes</p>
+                {% else %}
+                    <p>Opposite to mood: No</p>
+                {% endif %}
+
+            </div>
+
+            <a href="{{ playlist_info.link }}" target="_blank">
+                <img class="spotify-button" src={% static 'Moodsic/images/listen_on_spotify.png' %} alt="Listen on Spotify button">
+            </a>
+
+        </div>
+    </div>
 </body>
 </html>

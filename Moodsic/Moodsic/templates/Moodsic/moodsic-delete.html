@@ -19,11 +19,11 @@
     <!-- header do site -->
     {% include 'Moodsic/header.html' %}
 
-    <div class="form-wrapper">
+    <div class="delete-wrapper">
         <form method="post">
             {% csrf_token %}
-            <h3>Do you really want to delete the Moodsic "{{ moodsic.typedText|slice:":20" }}(...)" that was made on {{ moodsic.searchDate }}?</h3>
-            <input class="delete-button" type="submit" value="Yes">
+            <h3>Do you really want to delete the Moodsic "{{ moodsic.typedText|slice:":30" }}(...)" that was made on {{ moodsic.searchDate }}?</h3>
+            <button id="delete-button" class="btn btn-primary" type="submit" value="Yes">Yes</button>
         </form>
     </div>
     

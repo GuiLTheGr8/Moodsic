@@ -35,13 +35,12 @@
                 <div class="moodsic-wrapper" role="button" onclick="location.href='{% url "moodsic-details" pk=moodsic.id %}'">
                     <div class ="moodsic-descricao">
                         <span>Search date: </span> {{moodsic.searchDate}} |
-                        <span>Typed text: </span> {{moodsic.typedText|slice:":20"}}(...) |
+                        <span>Typed text: </span> {{moodsic.typedText|slice:":30"}}(...) |
                         <span>Mood: </span> {{moodsic.mood}} |
                         <span>Opposite: </span> {{moodsic.opposite}} |
-                        <span>Found Playlist: </span> {{moodsic.playlist.title}}
+                        <span>Found Playlist: </span> {{moodsic.playlist.title|slice:":40"}}(...)
                     </div>
                     <div class = "moodsic-buttons">
-                        <a class="details-link" href="{% url 'moodsic-details' pk=moodsic.id %}">&#08505;</a>
                         <a class="delete-link" href="{% url 'moodsic-delete' pk=moodsic.id %}">&#10799;</a>
                     </div>
                 </div>

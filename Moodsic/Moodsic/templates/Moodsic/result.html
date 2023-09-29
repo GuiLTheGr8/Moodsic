@@ -20,63 +20,78 @@
     <!-- header do site -->
     {% include 'Moodsic/header.html' %}
 
-    <h1>Results</h1>
+    <div class="results-content">
 
-    <p>Typed text: {{ user_input }}</p>
-    <p>Emotional analysis: {{ text_analysis }}</p>
-    <p>Mood: {{ mood }}</p>
+        <h1>Results</h1>
 
-    <br>
+        <h4>Typed text: "{{ user_input }}"</h4>
+        <p>Emotional analysis: {{ text_analysis }}</p>
+        <h4>Mood: {{ mood }}</h4>
 
-    <h2>Found playlist:</h2>
-    
-    <h3>{{ playlist_info.title }}</h3>
-    <h4>By: {{ playlist_info.owner }}</h4>
+        <br>
 
-    {% if playlist_info.description %}
-        <p>{{ playlist_info.description }}</p>
-    {% endif %}
+        <h2>Found playlist:</h2>
 
-    <p>Opposite to mood: {{ opposite }}</p>
+        <div class="playlist-wrapper">
 
-    {% if playlist_info.image %}
-        <img src="{{ playlist_info.image }}" alt="{{ playlist_info.title }} Image">
-    {% endif %}
+            <div class="img-wrapper">
+                {% if playlist_info.image %}
+                    <img class="rounded img-thumbnail" src="{{ playlist_info.image }}" alt="{{ playlist_info.title }} Image">
+                {% endif %}
+            </div>
 
-    <p><a href="{{ playlist_info.link }}" target="_blank">Open on Spotify</a></p>
+            <div class="playlist-info-wrapper">
+                <h3>{{ playlist_info.title }}</h3>
+                <h4>By: {{ playlist_info.owner }}</h4>
 
-    <br>
+                {% if playlist_info.description %}
+                    <p>{{ playlist_info.description }}</p>
+                {% endif %}
 
-    <p>Did you like the suggestion?</p>
+                <h4>Opposite to mood: {{ opposite }}</h4>
 
-    <div class="buttons">
-        <form method="POST" action="{% url 'search_playlist' %}">
-            {% csrf_token %}
-            <input type="hidden" name="user_input" value="{{ user_input }}">
-            <input type="hidden" name="opposite" value="{{ opposite }}">
-            {% if request.user.is_authenticated %}
-                <button type="submit">No (Search again)</button>
-            {% else %}
-                <button type="submit">Search again</button>
-            {% endif %}
-        </form>
-        <form method="POST" action="{% url 'save_results' %}">
-            {% csrf_token %}
-            <input type="hidden" name="playlist_title" value="{{ playlist_info.title }}">
-            <input type="hidden" name="playlist_description" value="{{ playlist_info.description }}">
-            <input type="hidden" name="playlist_owner" value="{{ playlist_info.owner }}">
-            <input type="hidden" name="playlist_link" value="{{ playlist_info.link }}">
-            <input type="hidden" name="playlist_image" value="{{ playlist_info.image }}">
-            <input type="hidden" name="user_input" value="{{ user_input }}">
-            <input type="hidden" name="mood" value="{{ mood }}">
-            <input type="hidden" name="search_date" value="{{ search_date }}">
-            <input type="hidden" name="opposite" value="{{ opposite }}">
-            {% if request.user.is_authenticated %}
-                <button type="submit">Yes! (Save Moodsic)</button>
-            {% else %}
-                <button type="submit" disabled>Log in to save</button>
-            {% endif %}
-        </form>
+                <a href="{{ playlist_info.link }}" target="_blank">
+                    <img class="spotify-button" src={% static 'Moodsic/images/listen_on_spotify.png' %} alt="Listen on Spotify button">
+                </a>
+                
+            </div>
+
+        </div>
+
+        <br>
+
+        <p>Did you like the suggestion?</p>
+
+        <div class="result-buttons">
+            <form method="POST" action="{% url 'search_playlist' %}">
+                {% csrf_token %}
+                <input type="hidden" name="user_input" value="{{ user_input }}">
+                <input type="hidden" name="opposite" value="{{ opposite }}">
+                {% if request.user.is_authenticated %}
+                    <button class="btn btn-primary" type="submit">No (Search again)</button>
+                {% else %}
+                    <button class="btn btn-primary" type="submit">Search again</button>
+                {% endif %}
+            </form>
+            <form method="POST" action="{% url 'save_results' %}">
+                {% csrf_token %}
+                <input type="hidden" name="playlist_title" value="{{ playlist_info.title }}">
+                <input type="hidden" name="playlist_description" value="{{ playlist_info.description }}">
+                <input type="hidden" name="playlist_owner" value="{{ playlist_info.owner }}">
+                <input type="hidden" name="playlist_link" value="{{ playlist_info.link }}">
+                <input type="hidden" name="playlist_image" value="{{ playlist_info.image }}">
+                <input type="hidden" name="user_input" value="{{ user_input }}">
+                <input type="hidden" name="mood" value="{{ mood }}">
+                <input type="hidden" name="search_date" value="{{ search_date }}">
+                <input type="hidden" name="opposite" value="{{ opposite }}">
+                {% if request.user.is_authenticated %}
+                    <button class="btn btn-primary" type="submit">Yes! (Save Moodsic)</button>
+                {% else %}
+                    <button class="btn btn-primary" type="submit" disabled>Log in to save</button>
+                {% endif %}
+            </form>
+        </div>
+
     </div>
 
 </body>
