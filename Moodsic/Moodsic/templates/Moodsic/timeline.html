@@ -21,36 +21,38 @@
     <!-- header do site -->
     {% include 'Moodsic/header.html' %}
 
-    <div id="graph-wrapper"></div>
+    <div id="graph-wrapper">
+
+    </div>
 
     <h2 class="timeline-text">Your Moodsics:</h2>
 
     <div id="search-add-wrapper">
-        <form method="GET" style="display: flex;">
-            <input id="search_text" type="text" name="search-area" value="{{search_input}}">
-            <input class="button" type="submit" value="Search">
+        <form method="GET">
+            <input id="search_text" type="text" name="search-area" value="{{search_input}}" placeholder="YYYY-MM-DD">
+            <input class="btn btn-primary btn-sm" type="submit" value="Search">
         </form>
-        <div class="timeline-items-wrapper">
-            {% for moodsic in moodsics %}
-                <div class="moodsic-wrapper" role="button" onclick="location.href='{% url "moodsic-details" pk=moodsic.id %}'">
-                    <div class ="moodsic-descricao">
-                        <span>Search date: </span> {{moodsic.searchDate}} |
-                        <span>Typed text: </span> {{moodsic.typedText|slice:":30"}}(...) |
-                        <span>Mood: </span> {{moodsic.mood}} |
-                        <span>Opposite: </span> {{moodsic.opposite}} |
-                        <span>Found Playlist: </span> {{moodsic.playlist.title|slice:":40"}}(...)
-                    </div>
-                    <div class = "moodsic-buttons">
-                        <a class="delete-link" href="{% url 'moodsic-delete' pk=moodsic.id %}">&#10799;</a>
-                    </div>
+    </div>
+    <div class="timeline-items-wrapper">
+        {% for moodsic in moodsics %}
+            <div class="moodsic-wrapper" role="button" onclick="location.href='{% url "moodsic-details" pk=moodsic.id %}'">
+                <div class ="moodsic-description">
+                    <span>Search date: </span> {{moodsic.searchDate}} |
+                    <span>Typed text: </span> {{moodsic.typedText|slice:":30"}}(...) |
+                    <span>Mood: </span> {{moodsic.mood}} |
+                    <span>Opposite: </span> {{moodsic.opposite}} |
+                    <span>Found Playlist: </span> {{moodsic.playlist.title|slice:":40"}}(...)
                 </div>
-            {% empty %}
-            <div class="moodsic-wrapper">
-                <h3>No Moodsics found.</h3>
-                <h4>Save some Moodsics or change or search terms.</h4>
+                <div class = "moodsic-buttons">
+                    <a class="delete-link" href="{% url 'moodsic-delete' pk=moodsic.id %}">&#10799;</a>
+                </div>
             </div>
-            {% endfor %}
+        {% empty %}
+        <div class="moodsic-wrapper">
+            <h3>No Moodsics found.</h3>
+            <h4>Save some Moodsics or change or search terms.</h4>
         </div>
+        {% endfor %}
     </div>
 
 </body>
