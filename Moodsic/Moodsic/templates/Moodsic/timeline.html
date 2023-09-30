@@ -15,13 +15,20 @@
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;700&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="{% static 'Moodsic/css/styles.css' %}">
+
+    <script src="https://cdn.canvasjs.com/ga/canvasjs.min.js"></script>
+
 </head>
 <body>
 
     <!-- header do site -->
     {% include 'Moodsic/header.html' %}
 
-    <div id="graph-wrapper">
+    <h2 class="timeline-text">What have you been feeling?</h2>
+
+    <div class="chart-wrapper">
+        <div id="chartContainer"></div>
+    </div>
 
     </div>
 
@@ -29,7 +36,7 @@
 
     <div id="search-add-wrapper">
         <form method="GET">
-            <input id="search_text" type="text" name="search-area" value="{{search_input}}" placeholder="YYYY-MM-DD">
+            <input id="search_text" type="text" name="search-area" value="{{search_input}}">
             <input class="btn btn-primary btn-sm" type="submit" value="Search">
         </form>
     </div>
@@ -48,7 +55,7 @@
                 </div>
             </div>
         {% empty %}
-        <div class="moodsic-wrapper">
+        <div class="nofound-wrapper">
             <h3>No Moodsics found.</h3>
             <h4>Save some Moodsics or change or search terms.</h4>
         </div>
@@ -57,3 +64,19 @@
 
 </body>
 </html>
+
+<script>
+    window.onload = function () {
+        var chart = new CanvasJS.Chart("chartContainer", {
+            animationEnabled: true,
+            title:{
+                text: "Your moods"
+            },
+            data: [{
+                type: "column",
+                dataPoints: {{data_points|safe}}
+            }]
+        });
+        chart.render();
+    }
+</script>

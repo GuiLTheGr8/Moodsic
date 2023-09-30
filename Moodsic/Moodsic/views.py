@@ -182,10 +182,38 @@ class TimelineView(LoginRequiredMixin, ListView):
     template_name = 'Moodsic/timeline.html'
     context_object_name = 'moodsics'
     success_url = reverse_lazy('timeline')
+
+    def get_queryset(self):
+        return Moodsic.objects.order_by('-searchDate')
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['moodsics'] = context['moodsics'].filter(user = self.request.user)
+        userMoodsics = context['moodsics'].filter(user = self.request.user)
+        context['moodsics'] = userMoodsics
+
+        angerCount = userMoodsics.filter(mood='anger').count()
+        fearCount = userMoodsics.filter(mood='fear').count()
+        joyCount = userMoodsics.filter(mood='joy').count()
+        loveCount = userMoodsics.filter(mood='love').count()
+        sadnessCount = userMoodsics.filter(mood='sadness').count()
+        surpriseCount = userMoodsics.filter(mood='surprise').count()
+
+        data_points = [
+            { "label": "anger",  "y": angerCount },
+            { "label": "fear", "y": fearCount },
+            { "label": "joy", "y": joyCount },
+            { "label": "love",  "y": loveCount },
+            { "label": "sadness",  "y": sadnessCount },
+            { "label": "surprise",  "y": surpriseCount }
+        ]
+        context['data_points'] = data_points
+
+        search_input = self.request.GET.get('search-area') or ''
+
+        if search_input:
+            context['moodsics'] = context['moodsics'].filter(typedText__icontains=search_input)
+
+        context['search_input'] = search_input
 
         return context
     
