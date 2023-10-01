@@ -188,15 +188,14 @@ class TimelineView(LoginRequiredMixin, ListView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        userMoodsics = context['moodsics'].filter(user = self.request.user)
-        context['moodsics'] = userMoodsics
+        context['moodsics'] = context['moodsics'].filter(user = self.request.user)
 
-        angerCount = userMoodsics.filter(mood='anger').count()
-        fearCount = userMoodsics.filter(mood='fear').count()
-        joyCount = userMoodsics.filter(mood='joy').count()
-        loveCount = userMoodsics.filter(mood='love').count()
-        sadnessCount = userMoodsics.filter(mood='sadness').count()
-        surpriseCount = userMoodsics.filter(mood='surprise').count()
+        angerCount = Moodsic.objects.filter(mood='anger', user = self.request.user).count()
+        fearCount = Moodsic.objects.filter(mood='fear', user = self.request.user).count()
+        joyCount = Moodsic.objects.filter(mood='joy', user = self.request.user).count()
+        loveCount = Moodsic.objects.filter(mood='love', user = self.request.user).count()
+        sadnessCount = Moodsic.objects.filter(mood='sadness', user = self.request.user).count()
+        surpriseCount = Moodsic.objects.filter(mood='surprise', user = self.request.user).count()
 
         data_points = [
             { "label": "anger",  "y": angerCount },
