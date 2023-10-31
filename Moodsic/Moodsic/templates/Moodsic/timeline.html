@@ -24,7 +24,7 @@
     <!-- header do site -->
     {% include 'Moodsic/header.html' %}
 
-    <h2 class="timeline-text">What have you been feeling?</h2>
+    <h2 class="feeling-text">What have you been feeling?</h2>
 
     <div class="chart-wrapper">
         <div id="chartContainer"></div>
@@ -32,7 +32,7 @@
 
     </div>
 
-    <h2 class="timeline-text">Your Moodsics:</h2>
+    <h2 class="your-moodsics-text">Your Moodsics ({{moodsics.count}}):</h2>
 
     <div id="search-add-wrapper">
         <form method="GET">
@@ -57,7 +57,7 @@
         {% empty %}
         <div class="nofound-wrapper">
             <h3>No Moodsics found.</h3>
-            <h4>Save some Moodsics or change or search terms.</h4>
+            <h4>Save some Moodsics or change search terms.</h4>
         </div>
         {% endfor %}
     </div>
