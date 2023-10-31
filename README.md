@@ -1,2 +1,2 @@
 # Moodsic
-Application that analyses the mood of the user through text analysis, and recommends a Spotify song based on it, also keeping track of those recommendations. Information Systems graduation project.
+Web application that analyses the mood of the user through text analysis, and recommends a Spotify playlist based on it, also letting the user save those recommendations. Information Systems graduation project.
